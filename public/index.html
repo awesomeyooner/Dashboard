@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Dynamic Widgets with Upload</title>
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+  <h1>Dynamic Widgets with Upload</h1>
+
+  <div class="form-container">
+
+    <h2>Add a New Widget</h2>
+
+    <form id="widgetForm">
+      <label for="title">Title:</label>
+      <input type="text" id="title" name="title" required>
+
+      <label for="link">Link:</label>
+      <input type="url" id="link" name="link" required>
+
+      <label for="image">Image:</label>
+      <input type="file" id="image" name="image" accept="image/*" >
+
+      <button type="submit">Add Widget</button>
+    </form>
+
+  </div>
+
+  <button id="deleteModeButton">Enter</button>
+
+  <div class="widget-container" id="widgetContainer"></div>
+
+  <script src="script.js"></script>
+</body>
+</html>

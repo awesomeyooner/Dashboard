@@ -1,0 +1,40 @@
+
+body {
+    font-family: Arial, sans-serif;
+  }
+  .widget-container {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 20px;
+    padding: 20px;
+  }
+  .widget {
+    border: 1px solid #ccc;
+    border-radius: 8px;
+    width: 200px;
+    text-align: center;
+    overflow: hidden;
+  }
+  .widget img {
+    width: 100%;
+    height: auto;
+  }
+  .widget h3 {
+    margin: 10px 0;
+    font-size: 1.2em;
+  }
+  .widget a {
+    text-decoration: none;
+    color: blue;
+    font-size: 1em;
+  }
+  .form-container {
+    margin: 20px 0;
+    padding: 20px;
+    border: 1px solid #ccc;
+    border-radius: 8px;
+  }
+  .form-container input {
+    margin: 10px 0;
+    display: block;
+  }
