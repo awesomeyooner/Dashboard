@@ -56,8 +56,9 @@ async function loadWidgets() {
 
   function removeWidget(index){
 
-    if(confirm("Are you sure you want to remove this Widget?"))
+    if(confirm("Are you sure you want to remove this Widget?")){
       widgets.splice(index, 1);
+    }
 
     // Update widgets.json
     fetch('/update-widgets', {

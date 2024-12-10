@@ -2,6 +2,7 @@ const express = require('express');
 const multer = require('multer');
 const fs = require('fs');
 const path = require('path');
+const axios = require('axios');
 const bodyParser = require('body-parser');
 
 const app = express();
@@ -15,12 +16,31 @@ const storage = multer.diskStorage({
 const upload = multer({ storage });
 
 app.use(bodyParser.json());
+app.use(express.text());
 app.use(express.static('public'));
 
 // Serve the main page
 app.get('/', (request, response) => {
   response.sendFile(path.join(__dirname, 'public', 'index.html'));
 });
+
+async function downloadImage(name, url){
+    try {
+      const response = await axios.get(url, { responseType: 'arraybuffer' });
+
+      // Create a unique filename using uuid
+      const fileName = `${name}.png`; // You can use other image formats, depending on the file extension
+      const filePath = path.join(__dirname, 'public/images', fileName);
+
+      // Write the image data to a file
+      fs.writeFileSync(filePath, response.data);
+      
+      return `images/${fileName}`; // Return the path of the saved image
+    } 
+    catch (error) {
+      throw new Error('Error downloading image: ' + error.message);
+    }
+}
 
 app.post('/update-widgets', (request, response) => {
     const updatedWidgets = request.body; // Get the updated widgets array
@@ -36,14 +56,20 @@ app.post('/update-widgets', (request, response) => {
   });
 
 // Endpoint to handle widget uploads
-app.post('/upload-widget', upload.single('image'), (request, response) => {
+app.post('/upload-widget', upload.single('image'), async (request, response) => {
 
-    var { title, link} = request.body;
-    var image = request.file ? `images/${request.file.filename}` : 'images/patrick.png';
+    var { title, link, image_url} = request.body;
+    var image;// = request.file ? `images/${request.file.filename}` : 'images/patrick.png';
 
+    if(request.file) //if the file exists
+      image = `images/${request.file.filename}`;
+    else if(image_url) //if image_url exists
+      image = await downloadImage(title, image_url);
+    else //fallback
+      image = 'images/patrick.png';
+    
     if (!title || !link) 
         return response.status(400).send('Missing required fields');
-    
 
     // Read and update widgets.json
     fs.readFile(
