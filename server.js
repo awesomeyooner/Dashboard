@@ -22,11 +22,24 @@ app.get('/', (request, response) => {
   response.sendFile(path.join(__dirname, 'public', 'index.html'));
 });
 
+app.post('/update-widgets', (request, response) => {
+    const updatedWidgets = request.body; // Get the updated widgets array
+  
+    // Update widgets.json
+    fs.writeFile(path.join(__dirname, 'public/widgets.json'), JSON.stringify(updatedWidgets, null, 2), (error) => {
+      if (error) {
+        console.error('Error updating widgets.json:', error);
+        return response.status(500).send('Error updating widgets.json');
+      }
+      return response.status(200).send('Widgets updated successfully');
+    });
+  });
+
 // Endpoint to handle widget uploads
 app.post('/upload-widget', upload.single('image'), (request, response) => {
 
-    const { title, link } = request.body;
-    const image = request.file ? `images/${request.file.filename}` : 'images/patrick.png';
+    var { title, link} = request.body;
+    var image = request.file ? `images/${request.file.filename}` : 'images/patrick.png';
 
     if (!title || !link) 
         return response.status(400).send('Missing required fields');

@@ -6,17 +6,28 @@ deleteButton.addEventListener('click', () => {
     deleteButton.textContent = isDeleteModeOn ? 'Exit Delete Mode' : 'Enter Delete Mode';
 });
 
-const widgets = [];
+var widgets = [];
+//populate array
+repopulateWidgets();
+
+function repopulateWidgets(){
+  fetch('/widgets.json')
+    .then(response => response.json())
+    .then(data => {
+      widgets = data; // Populate the widgets array with the data from the server
+      loadWidgets(); // Render the widgets after fetching the data
+    })
+    .catch(error => {
+      console.error('Error loading widgets:', error);
+    });
+}
 
 async function loadWidgets() {
     try {
-      const response = await fetch('widgets.json');
-      const widgets = await response.json();
       const container = document.getElementById('widgetContainer');
       container.innerHTML = '';
 
-      widgets.forEach(widget => {
-
+      widgets.forEach((widget, index) => {
         const widgetElement = document.createElement('div');
         widgetElement.classList.add('widget');
 
@@ -26,6 +37,14 @@ async function loadWidgets() {
           <h3>${widget.title}</h3>
         </a>
         `;
+
+      widgetElement.addEventListener('click', (event) => {
+        if (isDeleteModeOn) {
+          event.preventDefault();
+          removeWidget(index); // Remove the widget from the array and JSON
+        }
+      });
+
         container.appendChild(widgetElement);
       });
 
@@ -33,6 +52,25 @@ async function loadWidgets() {
     catch (error) {
       console.error('Error loading widgets:', error);
     }
+  }
+
+  function removeWidget(index){
+
+    if(confirm("Are you sure you want to remove this Widget?"))
+      widgets.splice(index, 1);
+
+    // Update widgets.json
+    fetch('/update-widgets', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify(widgets), // Send the updated widgets array
+    })
+    .then(data => {
+      console.log('Widget removed:', data);
+      repopulateWidgets();
+      loadWidgets(); // Re-render widgets after removal
+    })
+    .catch(error => console.error('Error removing widget:', error));
   }
 
   document.getElementById('widgetForm').addEventListener('submit', async (event) => {
@@ -47,6 +85,7 @@ async function loadWidgets() {
 
       if (response.ok) {
         alert('Widget added successfully!');
+        repopulateWidgets();
         loadWidgets();
         event.target.reset();
       } 
