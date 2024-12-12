@@ -1,32 +1,12 @@
 [
   {
-    "title": "a",
-    "link": "https://drive.google.com/drive/u/1/home",
-    "image": "images/patrick.png"
+    "title": "Google Classroom",
+    "link": "https://classroom.google.com/u/1/",
+    "image": "images/Google Classroom.png"
   },
   {
-    "title": "a",
+    "title": "Google Drive",
     "link": "https://drive.google.com/drive/u/1/home",
-    "image": "images/patrick.png"
-  },
-  {
-    "title": "a",
-    "link": "https://drive.google.com/drive/u/1/home",
-    "image": "images/patrick.png"
-  },
-  {
-    "title": "a",
-    "link": "https://drive.google.com/drive/u/1/home",
-    "image": "images/patrick.png"
-  },
-  {
-    "title": "a",
-    "link": "https://drive.google.com/drive/u/1/home",
-    "image": "images/the hood.png"
-  },
-  {
-    "title": "a",
-    "link": "https://drive.google.com/drive/u/1/home",
-    "image": "images/the hood.png"
+    "image": "images/Google Drive.png"
   }
 ]

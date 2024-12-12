@@ -59,7 +59,7 @@ app.post('/update-widgets', (request, response) => {
 app.post('/upload-widget', upload.single('image'), async (request, response) => {
 
     var { title, link, image_url} = request.body;
-    var image;// = request.file ? `images/${request.file.filename}` : 'images/patrick.png';
+    var image;
 
     if(request.file) //if the file exists
       image = `images/${request.file.filename}`;
